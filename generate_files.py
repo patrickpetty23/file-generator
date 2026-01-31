@@ -15,6 +15,7 @@ import struct
 import zipfile
 import csv
 import io
+import time
 from pathlib import Path
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
@@ -989,6 +990,9 @@ def generate_random_file(output_dir, max_size_mb=1):
 
 def main():
     """Main function to generate random files based on .env configuration."""
+    # Start timing
+    start_time = time.time()
+    
     # Load environment variables
     load_dotenv()
     
@@ -1031,6 +1035,10 @@ def main():
         except Exception as e:
             print(f"[{i + 1}/{num_files}] Error generating file: {e}")
     
+    # End timing
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    
     # Summary
     print()
     print(f"=" * 50)
@@ -1043,6 +1051,18 @@ def main():
     total_size = sum(f[2] for f in generated)
     size_str = f"{total_size / 1024:.1f} KB" if total_size < 1024 * 1024 else f"{total_size / (1024 * 1024):.2f} MB"
     print(f"Total size: {size_str}")
+    
+    # Format elapsed time
+    if elapsed_time < 1:
+        time_str = f"{elapsed_time * 1000:.0f} ms"
+    elif elapsed_time < 60:
+        time_str = f"{elapsed_time:.2f} seconds"
+    else:
+        minutes = int(elapsed_time // 60)
+        seconds = elapsed_time % 60
+        time_str = f"{minutes}m {seconds:.2f}s"
+    
+    print(f"Time elapsed: {time_str}")
 
 
 if __name__ == "__main__":
