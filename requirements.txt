@@ -1,0 +1,8 @@
+python-dotenv
+Pillow
+reportlab
+openpyxl
+python-pptx
+python-docx
+pandas
+pyarrow
